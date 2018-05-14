@@ -1,0 +1,12 @@
+[
+    { 
+        "essid":"myssid1",
+        "security": "wpa2",
+        "password": "password1"
+    },
+    {
+        "essid": "myssid2",
+        "security": "wpa",
+        "password": "password2"
+    }
+]

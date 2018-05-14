@@ -1,26 +1,39 @@
-try:
-    import usocket as socket
-except:
-    import socket
+# main file.
+# This file is run after boot.py.
+import usocket as socket
+import ujson as json
+import machine
+import dht
 
-try:
-    import machine
-    import dht
-except:
-    print("Executing outside micropython")
-
-CONTENT = b"""\
-HTTP/1.0 200 OK
+CONTENT_JSON = b"""HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
+Response Status Code -> 200 OK
+Access-Control-Allow-Methods: GET, POST
+Content-Type application-json; charset=utf-8
+Connection: Close
+Response Body:
 
 %s
 """
+
+CONTENT_HTML = b"""HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Response Status Code -> 200 OK
+Access-Control-Allow-Methods: GET, POST
+Content-Type: text/html; charset=utf-8
+Connection: Close
+Response Body:
+
+%s
+"""
+
 
 def parse_req(myrequest):
     """Function to pass the url and return the path"""
     myrequest = str(myrequest)
     items = myrequest.strip().split('\r\n')
     path = ""
+    param_pairs = []
     for item in items:
         if 'GET' in item:
             adr = item.split()[1]
@@ -44,13 +57,13 @@ def exec_req(adr, param_dict):
             pinid = int(adr[2])
             pin = machine.Pin(pinid, machine.Pin.OUT)
         except:
-            return "Error"
+            return {"status": "Error"}
         if adr[3] == 'on':
             pin.on()
-            return "Pin {} is on".format(str(pinid))
+            return {"status": "Pin {} is on".format(str(pinid))}
         elif adr[3] == 'off':
             pin.off()
-            return "Pin {} is off".format(str(pinid))
+            return {"status": "Pin {} is off".format(str(pinid))}
     elif adr[1] == 'read':
         try:
             pinid = int(adr[2])
@@ -65,19 +78,35 @@ def exec_req(adr, param_dict):
             elif pull == "down":
                 pull = machine.Pin.PULL_DOWN
             pin = machine.Pin(pinid, machine.Pin.IN, pull) #todo
-            return pin.value()
+            return {"value": pin.value()}
         except:
-            return "Error"
+            return {
+                "Status": "Error"
+                }
     elif adr[1] == "measure":
         try:
             pinid = int(adr[2])
             d = dht.DHT11(machine.Pin(pinid))
             d.measure()
-            return str(d.temperature()) + "," + str(d.humidity())
+            return {"temperature": d.temperature(),  "humidity": d.humidity()}
         except:
-            return "Error"
+            return {"Status": "Error"}
+    elif adr[1] == "whoami":
+        with open("identity.json", "r") as f:
+            identity = json.load(f)
+        return identity
+    elif adr[1] == "":
+        d = dht.DHT11(machine.Pin(3))
+        d.measure()
+        with open("identity.json", "r") as f:
+            identity = json.load(f)
+        return """<html><head><title>Temperature Monitor Page</title></head>
+        <body>
+        <b>Temperature: {} °C</b><br/>
+        <b>Humidity: {} %</b><br/>
+        <b>Location: {}</b><br/></body></html>""".format(d.temperature(), d.humidity(), identity["location"])
 
-    return "No Action"
+    return {"Status": "No Action"}
     
 
 def main(micropython_optimize=False):
@@ -117,15 +146,20 @@ def main(micropython_optimize=False):
             print(h)
             myrequest = myrequest + h
         print("----------------------")
+        print(myrequest)
         url, param_dict = parse_req(myrequest)
+        #print(url)
         out = exec_req(url, param_dict)
         #out = "URL: {}, PARAM: {}".format(str(url), str(param_dict))
-        client_stream.write(CONTENT % out)
+        if isinstance(out, dict):
+            response = CONTENT_JSON % out
+        else:
+            response = CONTENT_HTML % out
+        client_stream.write(response)
 
         client_stream.close()
         if not micropython_optimize:
             client_sock.close()
         print()
-
 
 main()
