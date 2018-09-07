@@ -34,12 +34,12 @@ Instructions
 Querying Sensors
 ##################
 
-```
-    query: GET /measure/4?type=ds18b20
+.. code:: json
+    :linenos:
+    :caption: A sample query to retrieve the temperature for all onewire ds18b20 sensors connected to pin 4.
+    
+    GET /measure/4?type=ds18b20
 
-```
-
-```
     Response: 
     {
         'temperatures': [
@@ -67,8 +67,6 @@ Querying Sensors
             ],
         'unit': 'celsius'
     }
-
-```
 
 .. todo::
     
