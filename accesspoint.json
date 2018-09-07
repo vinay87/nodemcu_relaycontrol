@@ -1,5 +1,5 @@
 {
-    "essid": "esp8266-01",
-    "channel": 3,
+    "essid": "esp8266-temp-01",
+    "channel": 5,
     "password": "password"
 }
