@@ -22,3 +22,42 @@ script to control the GPIO pins.
 - I have a raspberry pi zero which runs a single page webpage which sends ajax calls to this nodemcu
 - since the pi zero runs pihole as well, i've set it up such that it runs on port 5000
 - the webserver will start as soon as the pi zero is started (crontab @reboot)
+
+
+## DS18x20 Output
+
+```
+    query: GET /measure/4?type=ds18b20
+
+```
+
+```
+    Response: 
+    {
+        'temperatures': [
+            [
+                {
+                    'id': '0xc30316b1c398ff28',
+                    'temperature': 28.6875
+                },
+                {
+                    'id': '0xf70024984322ef28',
+                    'temperature': 27.9375
+                },
+                {
+                    'id': '0x65000e98431b8f28',
+                    'temperature': 28.875
+                },
+                {
+                    'id': '0x8000219843054328',
+                    'temperature': 28.1875
+                },
+                {
+                    'id': '0x2f00219843053228',
+                    'temperature': 27.25
+                }]
+            ],
+        'unit': 'celsius'
+    }
+
+```
