@@ -5,11 +5,12 @@ Vial - A Micropython Webserver
 ``Vial`` is a tiny web server to help hobbyists and developers who are using micropython to develop their own projects.
 The project is so named as a nod to ``Flask``.
 
-.. admonition:: Scope
-    :class: tip
+---------
+Scope
+-----------
     
-    The current status of this project is **alpha**. It is currently designed to target the ``nodemcu`` chip, and only the
-    core micropython project. However, this will encompass other libraries that can use ``micropython``, and thereby, ``circuitpython``.
+The current status of this project is **alpha**. It is currently designed to target the ``nodemcu`` chip, and only the
+core micropython project. However, this will encompass other libraries that can use ``micropython``, and thereby, ``circuitpython``.
 
 ---------------
 Example usage
@@ -34,9 +35,7 @@ Instructions
 Querying Sensors
 ##################
 
-.. code:: json
-    :linenos:
-    :caption: A sample query to retrieve the temperature for all onewire ds18b20 sensors connected to pin 4.
+A sample query to retrieve the temperature for all onewire ds18b20 sensors connected to pin 4::
     
     GET /measure/4?type=ds18b20
 
@@ -68,13 +67,17 @@ Querying Sensors
         'unit': 'celsius'
     }
 
-.. todo::
+-----------
+TODO
+-----------
+
+Pending Tasks
     
-    * [ ] Rewrite the library so it is pip-installable.
-    * [ ] Write tests.
-    * [ ] Write sphinx docs.
-    * [ ] Connect to TravisCI.
-    * [ ] Move ownership to the `vial-microserver <https://github.com/orgs/vial-microserver/>`_ team.
+* [] Rewrite the library so it is pip-installable.
+* [] Write tests.
+* [] Write sphinx docs.
+* [] Connect to TravisCI.
+* [] Move ownership to the `vial-microserver <https://github.com/orgs/vial-microserver/>`_ team.
 
 
 --------------
