@@ -3,6 +3,7 @@ Vial - A Micropython Webserver
 ===============================
 
 ``Vial`` is a tiny web server to help hobbyists and developers who are using micropython to develop their own projects.
+The project is so named as a nod to ``Flask``.
 
 .. admonition:: Scope
     :class: tip
@@ -14,9 +15,9 @@ Vial - A Micropython Webserver
 Example usage
 ---------------
 
-* To make pin 2 output and switch it on, send get request to http://*ip-address-of-nodemcu*/write/2/on
-* To read from pin 2 with PULL_UP, send get request to http://*ip-address-of-nodemcu*/read/2?pull=up
-* To measure from dht, http://*ip-address-of-nodemcu*/measure/2 (Returns two number separated by a comma)
+* To make pin 2 output and switch it on, send get request to ``http://*ip-address-of-nodemcu*/write/2/on``
+* To read from pin 2 with PULL_UP, send get request to ``http://*ip-address-of-nodemcu*/read/2?pull=up``
+* To measure from a sensor, ``http://*ip-address-of-nodemcu*/measure/2?type=dht`` (Returns two number separated by a comma)
 
 --------------------------------------
 Instructions
@@ -68,3 +69,20 @@ Querying Sensors
     }
 
 ```
+
+.. todo::
+    
+    * [ ] Rewrite the library so it is pip-installable.
+    * [ ] Write tests.
+    * [ ] Write sphinx docs.
+    * [ ] Connect to TravisCI.
+    * [ ] Move ownership to the `vial-microserver <https://github.com/orgs/vial-microserver/>`_ team.
+
+
+--------------
+Contributors
+--------------
+
+* `Vinay Keerthi <https://github.com/vinay87>`_
+* `Najeem Muhammed <https://github.com/idling-mind>`_
+
