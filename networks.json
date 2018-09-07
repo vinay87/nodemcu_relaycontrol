@@ -1,7 +1,7 @@
 [
     {
-        "essid": "InsidiousInternet_EXT",
-        "password":"superman",
+        "essid": "wifiname",
+        "password":"mysecretpassword",
         "static_ip": ["192.168.1.106","255.255.255.0","192.168.1.1", "192.168.1.14"]
     }
 ]
